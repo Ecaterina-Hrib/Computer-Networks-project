@@ -20,23 +20,7 @@
 //restrict
 // style
 //add genre
-void opendb(sqlite3* db1, sqlite3* db2)
-{ 
-int rc_user;
-int rc_song;
-rc_user=sqlite3_open("user.db",&db1);
-rc_song=sqlite3_open("song.db",&db2);
-if(rc_user)
-printf("Error at opening user database!");
-else 
-printf("Succes at opening user database");
 
-if(rc_song)
-printf("Error at opening song database!");
-else 
-printf("Succes at opening song database");
-
-}
 /* portul folosit */
 #define PORT 2908
 int main(int argc, char* argv[])
@@ -93,10 +77,13 @@ int main(int argc, char* argv[])
           
           while(1)
           {fflush(stdout);
-          bzero(primesc,1024);
-          bzero(trimit,1024);
+          bzero(primesc,max);
+          bzero(trimit,max);
+int read_size;
+
+
           //bzero(username,30);
-          memset (username, 0, sizeof (username));
+         // memset (username, 0, sizeof (username));
 
           //if(read (client, username, sizeof (username)) >0) //citire mesaj
           //{printf("am primit de la client username ul %s",username);}
@@ -107,13 +94,23 @@ int main(int argc, char* argv[])
                     continue;		// continuam sa ascultam
                 }
              printf ("[server]Message received...\n");
+             fflush(stdout);
+             bzero(mesaj,max);
              strcpy(mesaj,primesc);
              printf (" %s",mesaj);
-             
-          
-          
-          
+             //if(login)
+             char raspuns_login[6]="Yes";
+            //message back 
+         if( write(client,raspuns_login,sizeof(raspuns_login))<=0)
+         {printf("[server]Eroare la write() catre client.\n");
+         continue;
+         }
+          else printf("trimit la client raspunsul pt logare\n");//baza de date
+          fflush(stdout);
           }
-}
+        }
+      
     }
-}
+ return 0;
+ }
+

@@ -48,25 +48,22 @@ int main(int argc, char* argv[])
     }
     //ceva culori ca sa dea mai bine
     printf("Welcome to the TopMusic app!\n If u want to have acces to use the program you need to login or sign up!");
-    printf("\n 1.Sign Up\n 2.Log in\n Write your name: ");
+    //printf("\n 1.Sign Up\n 2.Log in\n Write your name: ");
     fflush(stdout);
+    //bool logat=0;
     
-    
+    cout<<endl;
 
-   while(1)
-    {
+   while(1) 
+    { printf("~TopMusic$ ");
          fflush(stdout);
      bzero(p.username,30);
-       read (0, p.username, sizeof (p.username));//citire tastatura
-      write(sd,p.username,sizeof(p.username)); //scriere server
-      fflush(stdout);
-      printf("trimit la server : %s",p.username);
-       
-        
-        read(sd,primit,sizeof(primit));
-        if(strstr(primit,"Quit")==0) break;
-
+read(0,p.username,sizeof(p.username));
+send(sd,p.username,sizeof(p.username),0);
+memset(primit,0,sizeof(primit));
+read(sd,primit,sizeof(primit));
+cout<<primit<<endl;
     }
     close(sd);
-
+return 0;
 }
