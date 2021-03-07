@@ -10,11 +10,12 @@
 #include <netdb.h>
 #include <string.h>
 using namespace std;
-#define max 1024
-#define PORT 2908
-struct user{
-char username[30];
-char parola[30];
+#define max 10024
+#define Color_Blue "\x1b[34m"// Color Start
+#define Color_end "\33[0m\\]" // color end
+struct mesaj{
+char primit[max];
+char trimis[max];
 }p;
 string convertstring(char a[30])
 {
@@ -28,41 +29,51 @@ int main(int argc, char* argv[])
  //client + server
     int sd;			//descriptorul de socket
     struct sockaddr_in server;	//structura folosita pentru conectare
-    char primit[max];		//mesajul trimis
-    char trimit[max];           //mesaj de trimis
-
+              
+char mirobolant[]="Muhahhhhhhhhhhhhhha";
     if ((sd = socket (AF_INET, SOCK_STREAM, 0)) == -1)	//creare socket
     {
         perror ("Eroare la socket().\n");
         return errno;
     }
+string my_spirit=convertstring(mirobolant);
 
     server.sin_family = AF_INET;			//familia socket-ului
     server.sin_addr.s_addr = inet_addr ("127.0.0.1");	//adresa IP a serverului
-    server.sin_port = htons (PORT);			//portul de conectare
-
+    server.sin_port = htons (2908);			//portul de conectare
+printf("\nstressed for that connect guy\n");
     if (connect (sd, (struct sockaddr *) &server, sizeof (struct sockaddr)) == -1)	//conectare la server
     {
         perror ("[client]Eroare la connect().\n");
+       printf ("[client]Uof iar ai gresit\n");
         return errno;
     }
-    //ceva culori ca sa dea mai bine
-    printf("Welcome to the TopMusic app!\n If u want to have acces to use the program you need to login or sign up!");
-    //printf("\n 1.Sign Up\n 2.Log in\n Write your name: ");
+    
+    printf("\x1b[33m Welcome to the TopMusic app!\n If u want to have acces to use the program you need to login or sign up!");
+    printf("\n\n      The steps to enter the app are:\n 1.login <your name>\n 2.password <your password>\n YOU CAN LOGIN AND LOGOUT MULTIPLE TIMES IN THE SAME CLIENT!\n\x1b[0m");
     fflush(stdout);
     //bool logat=0;
     
     cout<<endl;
 
    while(1) 
-    { printf("~TopMusic$ ");
+    { printf("\x1b[35m~~TopMusicApp$ \033[0m");
          fflush(stdout);
-     bzero(p.username,30);
-read(0,p.username,sizeof(p.username));
-send(sd,p.username,sizeof(p.username),0);
-memset(primit,0,sizeof(primit));
-read(sd,primit,sizeof(primit));
-cout<<primit<<endl;
+        
+     bzero(p.trimis,max);
+     bzero(p.primit,max);
+read(0,p.trimis,sizeof(p.trimis));
+send(sd,p.trimis,sizeof(p.trimis),0);
+char frum[]="Am trimis info\n";
+cout<<frum;
+//if(strstr(primit,"quit"))close(sd);
+
+cout<<endl;
+
+bzero(p.primit,max);
+read(sd,p.primit,sizeof(p.primit));
+
+cout<<p.primit<<endl;
     }
     close(sd);
 return 0;
